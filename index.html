@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Northmead Cardealer — Premium Japanese Imports</title>
+  <meta name="description" content="Toyota, Lexus, Nissan, Mazda. Directly sourced from Japan — Northmead Cardealer brings you the finest Japanese vehicles with full compliance and transparency.">
+  <meta property="og:title" content="Northmead Cardealer — Premium Japanese Imports">
+  <meta property="og:description" content="Directly sourced from Japan — Northmead Cardealer brings you the finest Japanese vehicles.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"DM Sans"', 'system-ui', 'sans-serif'],
+            display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+          },
+          colors: {
+            gold: {
+              300: '#f0d080',
+              400: '#d4a843',
+              500: '#b8860b',
+              600: '#9a7009',
+            },
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'marquee': 'marquee 28s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-14px)' },
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: #09090b;
+      color: #e4e4e7;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 60;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      pointer-events: none;
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.06);
+      backdrop-filter: blur(20px);
+    }
+
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #f0d080 0%, #d4a843 50%, #b8860b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .bezel-outer {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 6px;
+      border-radius: 1.5rem;
+    }
+    .bezel-inner {
+      background: #111113;
+      border-radius: calc(1.5rem - 6px);
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.08);
+      overflow: hidden;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(2rem);
+      filter: blur(4px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .delay-100 { transition-delay: 0.1s; }
+    .delay-200 { transition-delay: 0.2s; }
+    .delay-300 { transition-delay: 0.3s; }
+    .delay-400 { transition-delay: 0.4s; }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: linear-gradient(135deg, #d4a843, #b8860b);
+      color: #09090b;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 9999px;
+      font-size: 1rem;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 0 0 rgba(212, 168, 67, 0);
+      cursor: pointer;
+      border: none;
+      letter-spacing: -0.01em;
+      text-decoration: none;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-primary:hover { transform: scale(1.03); box-shadow: 0 0 40px rgba(212,168,67,0.25); }
+    .btn-primary:active { transform: scale(0.98); }
+    .btn-primary .arrow-wrap {
+      width: 2rem; height: 2rem; border-radius: 50%;
+      background: rgba(0,0,0,0.15);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .btn-primary:hover .arrow-wrap { transform: translateX(3px); }
+
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      color: #a1a1aa; font-size: 0.9rem;
+      padding: 0.75rem 1.5rem; border-radius: 9999px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer; background: transparent;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn-ghost:hover { color: #e4e4e7; border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.04); }
+
+    .nav-pill {
+      position: fixed; top: 1.25rem; left: 50%; transform: translateX(-50%);
+      z-index: 40; backdrop-filter: blur(24px);
+      background: rgba(9,9,11,0.75);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 9999px;
+      padding: 0.625rem 1.25rem;
+      display: flex; align-items: center; gap: 0.25rem;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link {
+      color: #71717a; font-size: 0.875rem; font-weight: 500;
+      padding: 0.4rem 0.85rem; border-radius: 9999px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap; cursor: pointer; text-decoration: none;
+    }
+    .nav-link:hover { color: #e4e4e7; background: rgba(255,255,255,0.07); }
+
+    .car-card { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
+    .car-card:hover { transform: translateY(-4px); }
+    .car-card:hover .car-img { transform: scale(1.04); }
+    .car-img { transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    .brand-badge { transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+    .brand-badge:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.18); transform: translateY(-2px); }
+
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 50;
+      backdrop-filter: blur(48px); background: rgba(9,9,11,0.96);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+      opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a { font-size: 2rem; font-weight: 700; color: #71717a; letter-spacing: -0.03em; transition: color 0.3s ease; text-decoration: none; }
+    .mobile-menu a:hover { color: #e4e4e7; }
+
+    .marquee-track { display: flex; width: max-content; }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      padding: 0.3rem 0.85rem; border-radius: 9999px;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+      background: rgba(212,168,67,0.1); color: #d4a843; border: 1px solid rgba(212,168,67,0.2);
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 3rem; font-weight: 300; line-height: 1;
+      color: #f0d080; letter-spacing: -0.02em;
+    }
+    .stat-label { font-size: 0.8rem; color: #52525b; letter-spacing: 0.04em; font-weight: 500; }
+
+    .feat-icon {
+      width: 2.5rem; height: 2.5rem; border-radius: 0.75rem;
+      background: rgba(212,168,67,0.1); border: 1px solid rgba(212,168,67,0.2);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    .testi-card {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 1.25rem; padding: 1.75rem;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .testi-card:hover { border-color: rgba(212,168,67,0.2); background: rgba(212,168,67,0.03); transform: translateY(-2px); }
+
+    .img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(9,9,11,0.9) 0%, rgba(9,9,11,0.3) 50%, transparent 100%);
+    }
+
+    .divider { height: 1px; background: linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent); }
+
+    @media (max-width: 768px) {
+      .stat-num { font-size: 2.25rem; }
+      .btn-primary { padding: 0.875rem 1.5rem; font-size: 0.9rem; }
+      [style*="grid-template-columns:repeat(12"] { display: flex !important; flex-direction: column; height: auto !important; }
+      [style*="grid-column"] { height: 260px !important; }
+      [style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr !important; }
+      [style*="order:2"] { order: 1 !important; }
+      [style*="order:1"] { order: 2 !important; }
+      [style*="gap:5rem"] { gap: 2rem !important; }
+      [style*="height:420px"] { height: 260px !important; }
+      [style*="columns:3"] { columns: 1 !important; }
+    }
+    @media (min-width: 769px) and (max-width: 1024px) {
+      [style*="columns:3"] { columns: 2 !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button onclick="toggleMobileMenu()" style="position:absolute;top:1.5rem;right:1.5rem;color:#71717a;background:none;border:none;cursor:pointer;font-size:1.5rem;">
+      <iconify-icon icon="solar:close-circle-linear" width="28"></iconify-icon>
+    </button>
+    <a href="#vehicles" onclick="toggleMobileMenu()">Vehicles</a>
+    <a href="#brands" onclick="toggleMobileMenu()">Brands</a>
+    <a href="#services" onclick="toggleMobileMenu()">Services</a>
+    <a href="#testimonials" onclick="toggleMobileMenu()">Reviews</a>
+    <a href="#contact" onclick="toggleMobileMenu()">Book Consultation</a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="nav-pill" id="mainNav">
+    <a href="#" style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;letter-spacing:0.08em;color:#d4a843;text-decoration:none;padding-right:0.5rem;border-right:1px solid rgba(255,255,255,0.1);margin-right:0.25rem;">NORTHMEAD</a>
+    <a href="#vehicles" class="nav-link hidden md:block">Vehicles</a>
+    <a href="#brands" class="nav-link hidden md:block">Brands</a>
+    <a href="#services" class="nav-link hidden md:block">Services</a>
+    <a href="#testimonials" class="nav-link hidden md:block">Reviews</a>
+    <a href="#contact" class="btn-primary ml-2 hidden md:flex" style="padding:0.5rem 1.25rem;font-size:0.82rem;gap:0.4rem;">
+      Consult Now
+      <span class="arrow-wrap" style="width:1.4rem;height:1.4rem;">
+        <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon>
+      </span>
+    </a>
+    <button onclick="toggleMobileMenu()" class="md:hidden ml-2" style="color:#71717a;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:9999px;padding:0.4rem;cursor:pointer;line-height:0;">
+      <iconify-icon icon="solar:hamburger-menu-linear" width="20"></iconify-icon>
+    </button>
+  </nav>
+
+  <!-- ============ HERO — SCROLL ANIMATION ============ -->
+  <!-- Outer scroll container: 400vh gives the scroll distance for the full 120-frame animation -->
+  <div id="heroScroll" style="height:400vh;position:relative;" id="home">
+
+    <!-- Sticky viewport — stays fixed while user scrolls through 400vh -->
+    <div style="position:sticky;top:0;height:100dvh;overflow:hidden;">
+
+      <!-- Loading screen -->
+      <div id="heroLoader" style="position:absolute;inset:0;background:#09090b;z-index:10;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.5rem;transition:opacity 0.8s ease;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;letter-spacing:0.12em;color:#d4a843;">NORTHMEAD</div>
+        <div style="width:200px;height:1px;background:rgba(255,255,255,0.08);position:relative;overflow:hidden;">
+          <div id="loaderBar" style="position:absolute;inset:0;background:linear-gradient(to right,#d4a843,#f0d080);transform:scaleX(0);transform-origin:left;transition:transform 0.1s linear;"></div>
+        </div>
+        <div id="loaderPct" style="font-size:0.72rem;color:#52525b;letter-spacing:0.1em;">Loading — 0%</div>
+      </div>
+
+      <!-- Canvas: WebP frames drawn here -->
+      <canvas id="heroCanvas" style="position:absolute;inset:0;width:100%;height:100%;display:block;"></canvas>
+
+      <!-- Cinematic gradient overlays -->
+      <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(9,9,11,0.55) 0%, rgba(9,9,11,0.1) 35%, rgba(9,9,11,0.1) 65%, rgba(9,9,11,0.85) 100%);pointer-events:none;"></div>
+      <div style="position:absolute;inset:0;background:linear-gradient(to right, rgba(9,9,11,0.7) 0%, transparent 55%);pointer-events:none;"></div>
+
+      <!-- Hero content overlay -->
+      <div style="position:absolute;inset:0;display:flex;align-items:center;padding-top:4rem;">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div style="max-width:620px;">
+
+            <!-- Eyebrow tag -->
+            <div class="tag" id="heroTag" style="margin-bottom:1.75rem;opacity:0;transform:translateY(1rem);transition:all 1s cubic-bezier(0.16,1,0.3,1) 0.2s;">
+              <iconify-icon icon="solar:star-bold" width="10"></iconify-icon>
+              Japan's Finest. Delivered to You.
+            </div>
+
+            <!-- Headline -->
+            <h1 id="heroH1" style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(3.2rem,7.5vw,6rem);font-weight:300;line-height:1.02;letter-spacing:-0.025em;margin-bottom:1.5rem;opacity:0;transform:translateY(1.5rem);filter:blur(6px);transition:all 1.1s cubic-bezier(0.16,1,0.3,1) 0.35s;">
+              Experience<br>
+              <em style="font-style:italic;color:rgba(255,255,255,0.5);">the art of</em><br>
+              <span class="text-gold-gradient" style="font-weight:400;">Japanese craft.</span>
+            </h1>
+
+            <!-- Body -->
+            <p id="heroP" style="font-size:1.05rem;color:rgba(255,255,255,0.55);line-height:1.75;max-width:44ch;margin-bottom:2.5rem;opacity:0;transform:translateY(1rem);transition:all 1s cubic-bezier(0.16,1,0.3,1) 0.5s;">
+              Toyota, Lexus, Nissan, Mazda. Directly sourced from Japan — every vehicle rigorously inspected, compliantly imported, and ready to drive.
+            </p>
+
+            <!-- CTAs -->
+            <div id="heroCTA" style="display:flex;gap:1rem;flex-wrap:wrap;opacity:0;transform:translateY(1rem);transition:all 1s cubic-bezier(0.16,1,0.3,1) 0.65s;">
+              <a href="#vehicles" class="btn-primary">
+                Browse Vehicles
+                <span class="arrow-wrap">
+                  <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+                </span>
+              </a>
+              <button class="btn-ghost" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">
+                <iconify-icon icon="solar:phone-calling-linear" width="16"></iconify-icon>
+                Free Consultation
+              </button>
+            </div>
+
+            <!-- Stats -->
+            <div id="heroStats" style="display:flex;gap:2.5rem;margin-top:3.5rem;padding-top:2.5rem;border-top:1px solid rgba(255,255,255,0.1);flex-wrap:wrap;opacity:0;transform:translateY(1rem);transition:all 1s cubic-bezier(0.16,1,0.3,1) 0.8s;">
+              <div>
+                <div class="stat-num">1,247</div>
+                <div class="stat-label">Vehicles Sold</div>
+              </div>
+              <div>
+                <div class="stat-num">98.7%</div>
+                <div class="stat-label">Client Satisfaction</div>
+              </div>
+              <div>
+                <div class="stat-num">12 Yrs</div>
+                <div class="stat-label">Industry Experience</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scroll progress bar (top of screen) -->
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;background:rgba(255,255,255,0.06);z-index:5;">
+        <div id="scrollProgressBar" style="height:100%;background:linear-gradient(to right,#d4a843,#f0d080);width:0%;transition:width 0.05s linear;"></div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div id="scrollHint" style="position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:rgba(255,255,255,0.3);font-size:0.68rem;letter-spacing:0.12em;text-transform:uppercase;transition:opacity 0.5s ease;">
+        <span>Scroll</span>
+        <div style="width:1px;height:2.5rem;background:linear-gradient(to bottom,rgba(255,255,255,0.3),transparent);animation:float 2s ease-in-out infinite;"></div>
+      </div>
+
+      <!-- Frame counter (dev — hidden in prod) -->
+      <!-- <div id="frameCounter" style="position:absolute;top:5rem;right:1rem;color:rgba(255,255,255,0.3);font-size:0.7rem;font-family:monospace;z-index:5;"></div> -->
+
+    </div>
+  </div>
+
+  <!-- ============ BRANDS MARQUEE ============ -->
+  <section id="brands" style="padding:4rem 0;overflow:hidden;border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="overflow:hidden;">
+      <div class="marquee-track" style="animation:marquee 28s linear infinite;">
+        <div style="display:flex;align-items:center;gap:2rem;padding:0 1rem;">
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">TOYOTA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">LEXUS</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">NISSAN</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">HONDA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">MAZDA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">SUBARU</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">INFINITI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">MITSUBISHI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">SUZUKI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">DAIHATSU</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:2rem;padding:0 1rem;">
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">TOYOTA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">LEXUS</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">NISSAN</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">HONDA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">MAZDA</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">SUBARU</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">INFINITI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">MITSUBISHI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">SUZUKI</div>
+          <div class="brand-badge glass" style="padding:0.75rem 2rem;border-radius:9999px;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;color:#71717a;cursor:pointer;">DAIHATSU</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ FEATURED VEHICLES — BENTO GRID ============ -->
+  <section id="vehicles" style="padding:8rem 0;position:relative;">
+    <div class="orb" style="width:500px;height:500px;top:10%;right:-100px;background:radial-gradient(circle, rgba(180,140,0,0.08) 0%, transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="margin-bottom:4rem;">
+        <div class="tag reveal" style="margin-bottom:1.25rem;">
+          <iconify-icon icon="solar:car-bold" width="10"></iconify-icon>
+          Curated Inventory
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:1rem;">
+          <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;letter-spacing:-0.02em;line-height:1.1;" class="reveal delay-100">
+            Available now —<br>
+            <span class="text-gold-gradient" style="font-weight:400;">handpicked for you.</span>
+          </h2>
+          <a href="#contact" class="btn-ghost reveal delay-200" style="text-decoration:none;flex-shrink:0;">
+            View All
+            <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+          </a>
+        </div>
+      </div>
+
+      <!-- Bento Grid -->
+      <div style="display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:220px;gap:1rem;" class="reveal delay-200">
+
+        <!-- Toyota Alphard — Large -->
+        <div class="bezel-outer car-card" style="grid-column:1/9;grid-row:1/3;position:relative;" onclick="openModal('Toyota Alphard Executive Lounge','$78,000','toyota-alphard-executive/900/600','40 Series · 2.5L Hybrid · 249 hp · 2024 · 3,200 km')">
+          <div class="bezel-inner" style="height:100%;position:relative;">
+            <img src="https://picsum.photos/seed/toyota-alphard-white/900/600" alt="Toyota Alphard Executive Lounge" loading="lazy" decoding="async" class="car-img" style="width:100%;height:100%;object-fit:cover;">
+            <div class="img-overlay"></div>
+            <div style="position:absolute;inset:0;padding:1.75rem;display:flex;flex-direction:column;justify-content:flex-end;">
+              <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.6rem;">
+                <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#d4a843;border:1px solid rgba(212,168,67,0.3);padding:0.2rem 0.6rem;border-radius:9999px;">TOYOTA</span>
+                <span style="font-size:0.65rem;color:#52525b;">· 2024 · Japan Spec</span>
+              </div>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:400;color:#ffffff;letter-spacing:-0.01em;margin-bottom:0.3rem;">Alphard Executive Lounge</h3>
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:0.5rem;">
+                <div>
+                  <div style="font-size:0.75rem;color:#71717a;margin-bottom:0.15rem;">2.5L Hybrid · 249 hp · 3,200 km · RHD</div>
+                  <div style="font-size:1.35rem;font-weight:700;color:#f0d080;letter-spacing:-0.01em;">$78,000</div>
+                </div>
+                <div class="glass" style="padding:0.5rem 1rem;border-radius:9999px;font-size:0.75rem;font-weight:600;color:#d4a843;display:flex;align-items:center;gap:0.4rem;">
+                  View Details
+                  <iconify-icon icon="solar:arrow-right-linear" width="12"></iconify-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lexus LX 600 — Tall -->
+        <div class="bezel-outer car-card" style="grid-column:9/13;grid-row:1/4;position:relative;" onclick="openModal('Lexus LX 600 Ultra Luxury','$142,000','lexus-lx600-black/700/900','J310 · 3.5L Twin-Turbo V6 · 416 hp · 2023 · 8,700 km')">
+          <div class="bezel-inner" style="height:100%;position:relative;">
+            <img src="https://picsum.photos/seed/lexus-lx600-dark/700/900" alt="Lexus LX 600" loading="lazy" decoding="async" class="car-img" style="width:100%;height:100%;object-fit:cover;">
+            <div class="img-overlay"></div>
+            <div style="position:absolute;inset:0;padding:1.5rem;display:flex;flex-direction:column;justify-content:flex-end;">
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#d4a843;border:1px solid rgba(212,168,67,0.3);padding:0.2rem 0.6rem;border-radius:9999px;display:inline-flex;width:fit-content;margin-bottom:0.6rem;">LEXUS</span>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:#ffffff;margin-bottom:0.3rem;">LX 600 Ultra Luxury</h3>
+              <div style="font-size:0.72rem;color:#71717a;margin-bottom:0.5rem;">3.5L V6 TT · 416 hp · Japan Spec</div>
+              <div style="font-size:1.2rem;font-weight:700;color:#f0d080;">$142,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Nissan GT-R -->
+        <div class="bezel-outer car-card" style="grid-column:1/6;position:relative;" onclick="openModal('Nissan GT-R Premium','$89,000','nissan-gtr-silver/700/400','R35 · 3.8L Twin-Turbo V6 · 565 hp · 2023 · 4,100 km')">
+          <div class="bezel-inner" style="height:100%;position:relative;">
+            <img src="https://picsum.photos/seed/nissan-gtr-silver/700/400" alt="Nissan GT-R" loading="lazy" decoding="async" class="car-img" style="width:100%;height:100%;object-fit:cover;">
+            <div class="img-overlay"></div>
+            <div style="position:absolute;inset:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:flex-end;">
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#d4a843;border:1px solid rgba(212,168,67,0.3);padding:0.2rem 0.6rem;border-radius:9999px;display:inline-flex;width:fit-content;margin-bottom:0.5rem;">NISSAN</span>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:400;color:#ffffff;margin-bottom:0.15rem;">GT-R Premium</h3>
+              <div style="font-size:1.1rem;font-weight:700;color:#f0d080;">$89,000</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Toyota Land Cruiser 300 -->
+        <div class="bezel-outer car-card" style="grid-column:6/9;position:relative;" onclick="openModal('Toyota Land Cruiser 300','$96,000','toyota-landcruiser-300/600/400','J300 · 3.3L Twin-Turbo Diesel V6 · 309 hp · 2024 · 6,800 km')">
+          <div class="bezel-inner" style="height:100%;position:relative;">
+            <img src="https://picsum.photos/seed/toyota-landcruiser-300/600/400" alt="Toyota Land Cruiser 300" loading="lazy" decoding="async" class="car-img" style="width:100%;height:100%;object-fit:cover;">
+            <div class="img-overlay"></div>
+            <div style="position:absolute;inset:0;padding:1.25rem;display:flex;flex-direction:column;justify-content:flex-end;">
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#d4a843;border:1px solid rgba(212,168,67,0.3);padding:0.2rem 0.6rem;border-radius:9999px;display:inline-flex;width:fit-content;margin-bottom:0.5rem;">TOYOTA</span>
+              <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:400;color:#ffffff;margin-bottom:0.15rem;">Land Cruiser 300</h3>
+              <div style="font-size:1rem;font-weight:700;color:#f0d080;">$96,000</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ SERVICES — ZIG-ZAG ============ -->
+  <section id="services" style="padding:8rem 0;position:relative;">
+    <div class="orb" style="width:400px;height:400px;bottom:0;left:-100px;background:radial-gradient(circle, rgba(180,140,0,0.07) 0%, transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="text-align:center;margin-bottom:5rem;">
+        <div class="tag reveal" style="margin-bottom:1.25rem;display:inline-flex;">
+          <iconify-icon icon="solar:shield-check-bold" width="10"></iconify-icon>
+          The Northmead Experience
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;letter-spacing:-0.02em;line-height:1.1;" class="reveal delay-100">
+          From Japan to your driveway —<br>
+          <span class="text-gold-gradient" style="font-weight:400;">a seamless journey.</span>
+        </h2>
+      </div>
+
+      <!-- Service 1 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-bottom:8rem;" class="reveal">
+        <div class="bezel-outer" style="height:420px;">
+          <div class="bezel-inner" style="height:100%;position:relative;overflow:hidden;">
+            <img src="https://picsum.photos/seed/car-inspection-detail/700/600" alt="320-Point Inspection" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+        <div>
+          <div class="tag" style="margin-bottom:1.5rem;">01</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:1.25rem;line-height:1.2;">
+            Direct Japan<br>
+            <span style="color:#d4a843;font-weight:400;">Sourcing & Import</span>
+          </h3>
+          <p style="color:#71717a;line-height:1.8;margin-bottom:2rem;font-size:0.97rem;">
+            We source vehicles directly from Japan's domestic market — auctions, dealerships, and private collections. Every car is acquired in-country, giving you access to Japan-spec models unavailable anywhere else.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:0.875rem;">
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">USS / TAA / JU auction direct access</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Japan-spec & rare domestic models available</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Full shipping, customs & compliance handled</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 2 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-bottom:8rem;" class="reveal">
+        <div style="order:2;">
+          <div class="bezel-outer" style="height:420px;">
+            <div class="bezel-inner" style="height:100%;position:relative;overflow:hidden;">
+              <img src="https://picsum.photos/seed/finance-luxury-car/700/600" alt="Tailored Financing" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+          </div>
+        </div>
+        <div style="order:1;">
+          <div class="tag" style="margin-bottom:1.5rem;">02</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:1.25rem;line-height:1.2;">
+            End-to-End<br>
+            <span style="color:#d4a843;font-weight:400;">Compliance & Registration</span>
+          </h3>
+          <p style="color:#71717a;line-height:1.8;margin-bottom:2rem;font-size:0.97rem;">
+            Importing a Japanese vehicle involves strict compliance steps — we handle every detail. From pre-purchase inspection in Japan to local registration, we manage the entire process so you receive a road-legal vehicle with zero stress.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:0.875rem;">
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Pre-purchase inspection at Japan port</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Customs clearance & import duty handled</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Local compliance, roadworthy & registration</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service 3 -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;" class="reveal">
+        <div class="bezel-outer" style="height:420px;">
+          <div class="bezel-inner" style="height:100%;position:relative;overflow:hidden;">
+            <img src="https://picsum.photos/seed/car-service-after/700/600" alt="Lifetime Support" loading="lazy" decoding="async" style="width:100%;height:100%;object-fit:cover;">
+          </div>
+        </div>
+        <div>
+          <div class="tag" style="margin-bottom:1.5rem;">03</div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.75rem,3.5vw,2.5rem);font-weight:300;letter-spacing:-0.02em;margin-bottom:1.25rem;line-height:1.2;">
+            After-Sales Care<br>
+            <span style="color:#d4a843;font-weight:400;">& Ongoing Support</span>
+          </h3>
+          <p style="color:#71717a;line-height:1.8;margin-bottom:2rem;font-size:0.97rem;">
+            Our relationship doesn't end at handover. Every Northmead vehicle comes with post-delivery support — parts sourcing from Japan, servicing guidance, and a dedicated advisor who knows your car's full history.
+          </p>
+          <div style="display:flex;flex-direction:column;gap:0.875rem;">
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Japan OEM parts sourcing on request</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Full vehicle history records (Japanese)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.875rem;">
+              <div class="feat-icon"><iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="18"></iconify-icon></div>
+              <span style="font-size:0.9rem;color:#a1a1aa;">Dedicated advisor for the life of your vehicle</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ TESTIMONIALS — MASONRY ============ -->
+  <section id="testimonials" style="padding:8rem 0;position:relative;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="text-align:center;margin-bottom:4rem;">
+        <div class="tag reveal" style="margin-bottom:1.25rem;display:inline-flex;">
+          <iconify-icon icon="solar:chat-round-dots-bold" width="10"></iconify-icon>
+          Client Reviews
+        </div>
+        <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:300;letter-spacing:-0.02em;line-height:1.1;" class="reveal delay-100">
+          1,247 owners chose Northmead.<br>
+          <span class="text-gold-gradient" style="font-weight:400;">Here's why.</span>
+        </h2>
+      </div>
+
+      <div style="columns:3;column-gap:1.25rem;" class="reveal delay-200">
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:0.92rem;color:#a1a1aa;line-height:1.75;margin-bottom:1.25rem;">"First time importing from Japan and I had no idea where to start. Northmead handled everything — the auction bid, shipping, compliance, even the registration. I just received the keys to my Alphard. Couldn't be easier."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=sarah_m" alt="Sarah M." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">Sarah M.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Toyota Alphard · November 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;border-color:rgba(212,168,67,0.15);background:rgba(212,168,67,0.03);">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:1.05rem;color:#d4d4d8;line-height:1.75;margin-bottom:1.25rem;font-style:italic;">"Sourcing a GT-R from Japan's domestic market felt impossible until I found Northmead. They secured a low-km, non-export model at auction price. This is my third car through them — each time better than the last."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(212,168,67,0.1);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=david_p" alt="David P." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">David P.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Nissan GT-R · 3rd purchase</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:0.92rem;color:#a1a1aa;line-height:1.75;margin-bottom:1.25rem;">"Got a Lexus LX600 in Japan spec — features you simply can't get locally. The inspection photos from Japan were detailed, the compliance process was fast, and the car arrived in perfect condition."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=thomas_k" alt="Thomas K." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">Thomas K.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Lexus LX 600 · August 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:0.92rem;color:#a1a1aa;line-height:1.75;margin-bottom:1.25rem;">"Wanted a JDM Toyota Supra in a specific colour that doesn't exist here. Northmead found it at a Japanese auction within two weeks. The whole import process took about six weeks — faster than I expected."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=marcus_b" alt="Marcus B." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">Marcus B.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Toyota GR Supra · September 2024</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:0.92rem;color:#a1a1aa;line-height:1.75;margin-bottom:1.25rem;">"My Land Cruiser 300 needed a Japan-only part six months after purchase. Northmead sourced it directly from Toyota Japan and had it here within ten days. That kind of after-sales support is rare."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=emily_r" alt="Emily R." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">Emily R.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Toyota Land Cruiser 300 · December 2023</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testi-card" style="break-inside:avoid;margin-bottom:1.25rem;">
+          <div style="display:flex;gap:1px;margin-bottom:1rem;">
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+            <iconify-icon icon="solar:star-bold" style="color:#d4a843;" width="14"></iconify-icon>
+          </div>
+          <p style="font-size:0.92rem;color:#a1a1aa;line-height:1.75;margin-bottom:1.25rem;">"Bought a low-km Nissan Skyline from Japan — a car I've wanted since I was a teenager. Northmead navigated the age exemption requirements and delivered it registered and ready. Dreams do come true."</p>
+          <div style="display:flex;align-items:center;gap:0.75rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem;">
+            <img src="https://i.pravatar.cc/150?u=richard_c" alt="Richard C." loading="lazy" style="width:2.25rem;height:2.25rem;border-radius:50%;object-fit:cover;">
+            <div>
+              <div style="font-size:0.85rem;font-weight:600;color:#e4e4e7;">Richard C.</div>
+              <div style="font-size:0.72rem;color:#52525b;">Nissan Skyline GT-R R34 · June 2024</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ============ CTA — FULL BLEED ============ -->
+  <section id="contact" style="padding:8rem 0;position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background:linear-gradient(135deg, #0d0c08 0%, #09090b 50%, #0a0d0a 100%);"></div>
+    <div class="orb" style="width:700px;height:700px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle, rgba(180,140,0,0.12) 0%, transparent 65%);"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center" style="position:relative;z-index:1;">
+      <div class="tag reveal" style="margin-bottom:2rem;display:inline-flex;">
+        <iconify-icon icon="solar:phone-calling-bold" width="10"></iconify-icon>
+        Book a Free Consultation
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(2.5rem,6vw,4.5rem);font-weight:300;letter-spacing:-0.02em;line-height:1.1;margin-bottom:1.5rem;" class="reveal delay-100">
+        Tell us what you're after —<br>
+        <span class="text-gold-gradient" style="font-weight:400;font-style:italic;">we'll find it in Japan.</span>
+      </h2>
+      <p style="font-size:1rem;color:#71717a;line-height:1.8;margin-bottom:3.5rem;" class="reveal delay-200">
+        Share your preferred model, spec, and budget. Our team will search Japan's domestic market and respond within 24 hours with availability and pricing.<br>
+        No obligation — just genuine expertise.
+      </p>
+
+      <!-- Form -->
+      <div class="bezel-outer reveal delay-300" style="max-width:640px;margin:0 auto;">
+        <div class="bezel-inner" style="padding:2.5rem;">
+          <form onsubmit="handleSubmit(event)">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+              <div>
+                <label style="display:block;font-size:0.75rem;color:#52525b;margin-bottom:0.4rem;letter-spacing:0.04em;text-align:left;">Full Name</label>
+                <input type="text" placeholder="John Smith" required style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.75rem;padding:0.75rem 1rem;color:#e4e4e7;font-size:0.9rem;outline:none;transition:border-color 0.3s ease;font-family:'DM Sans',sans-serif;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.75rem;color:#52525b;margin-bottom:0.4rem;letter-spacing:0.04em;text-align:left;">Phone Number</label>
+                <input type="tel" placeholder="+1 (555) 000-0000" required style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.75rem;padding:0.75rem 1rem;color:#e4e4e7;font-size:0.9rem;outline:none;transition:border-color 0.3s ease;font-family:'DM Sans',sans-serif;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+              </div>
+            </div>
+            <div style="margin-bottom:1rem;">
+              <label style="display:block;font-size:0.75rem;color:#52525b;margin-bottom:0.4rem;letter-spacing:0.04em;text-align:left;">Brand of Interest</label>
+              <select style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.75rem;padding:0.75rem 1rem;color:#e4e4e7;font-size:0.9rem;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+                <option value="" style="background:#111113;">Select a brand</option>
+                <option value="toyota" style="background:#111113;">Toyota</option>
+                <option value="lexus" style="background:#111113;">Lexus</option>
+                <option value="nissan" style="background:#111113;">Nissan</option>
+                <option value="honda" style="background:#111113;">Honda</option>
+                <option value="mazda" style="background:#111113;">Mazda</option>
+                <option value="subaru" style="background:#111113;">Subaru</option>
+                <option value="infiniti" style="background:#111113;">Infiniti</option>
+                <option value="mitsubishi" style="background:#111113;">Mitsubishi</option>
+                <option value="other" style="background:#111113;">Other (JDM)</option>
+              </select>
+            </div>
+            <div style="margin-bottom:1.5rem;">
+              <label style="display:block;font-size:0.75rem;color:#52525b;margin-bottom:0.4rem;letter-spacing:0.04em;text-align:left;">Budget Range</label>
+              <select style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.75rem;padding:0.75rem 1rem;color:#e4e4e7;font-size:0.9rem;outline:none;font-family:'DM Sans',sans-serif;cursor:pointer;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+                <option value="" style="background:#111113;">Select your budget</option>
+                <option value="50k" style="background:#111113;">Under $50,000</option>
+                <option value="100k" style="background:#111113;">$50,000 – $100,000</option>
+                <option value="200k" style="background:#111113;">$100,000 – $200,000</option>
+                <option value="300k" style="background:#111113;">$200,000 – $300,000</option>
+                <option value="300k+" style="background:#111113;">$300,000+</option>
+              </select>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:1.1rem 2rem;">
+              Request Free Consultation
+              <span class="arrow-wrap">
+                <iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon>
+              </span>
+            </button>
+          </form>
+          <p style="font-size:0.75rem;color:#3f3f46;margin-top:1.25rem;text-align:center;">Your information is used solely for consultation purposes and never shared with third parties.</p>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:center;gap:2rem;margin-top:2.5rem;flex-wrap:wrap;" class="reveal delay-400">
+        <a href="tel:+61298765432" style="display:flex;align-items:center;gap:0.5rem;color:#52525b;font-size:0.85rem;text-decoration:none;transition:color 0.3s ease;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">
+          <iconify-icon icon="solar:phone-linear" width="16"></iconify-icon>
+          +61 2 9876 5432
+        </a>
+        <a href="mailto:import@northmeadcars.com.au" style="display:flex;align-items:center;gap:0.5rem;color:#52525b;font-size:0.85rem;text-decoration:none;transition:color 0.3s ease;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">
+          <iconify-icon icon="solar:letter-linear" width="16"></iconify-icon>
+          import@northmeadcars.com.au
+        </a>
+        <span style="display:flex;align-items:center;gap:0.5rem;color:#52525b;font-size:0.85rem;">
+          <iconify-icon icon="solar:clock-circle-linear" width="16"></iconify-icon>
+          Mon–Fri 9am–6pm · Sat 10am–4pm
+        </span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer style="border-top:1px solid rgba(255,255,255,0.06);padding:3rem 0;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:2rem;">
+        <div>
+          <div style="font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;letter-spacing:0.1em;color:#d4a843;margin-bottom:0.4rem;">NORTHMEAD CARDEALER</div>
+          <div style="font-size:0.78rem;color:#3f3f46;">Japanese Import Specialists · 14 Briens Road, Northmead NSW 2152, Australia</div>
+        </div>
+        <div style="display:flex;gap:1.5rem;flex-wrap:wrap;">
+          <a href="#vehicles" style="font-size:0.82rem;color:#52525b;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">Vehicles</a>
+          <a href="#services" style="font-size:0.82rem;color:#52525b;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">Services</a>
+          <a href="#testimonials" style="font-size:0.82rem;color:#52525b;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">Reviews</a>
+          <a href="#contact" style="font-size:0.82rem;color:#52525b;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">Consultation</a>
+          <a href="#" style="font-size:0.82rem;color:#52525b;text-decoration:none;transition:color 0.3s;" onmouseover="this.style.color='#a1a1aa'" onmouseout="this.style.color='#52525b'">Privacy Policy</a>
+        </div>
+        <div style="display:flex;gap:0.75rem;">
+          <a href="#" style="width:2.25rem;height:2.25rem;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#52525b;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#a1a1aa'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='#52525b'">
+            <iconify-icon icon="solar:instagram-linear" width="16"></iconify-icon>
+          </a>
+          <a href="#" style="width:2.25rem;height:2.25rem;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#52525b;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#a1a1aa'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='#52525b'">
+            <iconify-icon icon="solar:youtube-linear" width="16"></iconify-icon>
+          </a>
+          <a href="#" style="width:2.25rem;height:2.25rem;border-radius:50%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#52525b;transition:all 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.08)';this.style.color='#a1a1aa'" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.color='#52525b'">
+            <iconify-icon icon="solar:chat-line-linear" width="16"></iconify-icon>
+          </a>
+        </div>
+      </div>
+      <div style="margin-top:2rem;padding-top:2rem;border-top:1px solid rgba(255,255,255,0.04);text-align:center;font-size:0.75rem;color:#3f3f46;">
+        &copy; 2026 Northmead Cardealer. All rights reserved. Licensed Motor Dealer #MD-075432 · ABN 47 123 456 789
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ VEHICLE MODAL ============ -->
+  <div id="vehicleModal" style="position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:1rem;" onclick="closeModal(event)">
+    <div style="position:absolute;inset:0;background:rgba(9,9,11,0.85);backdrop-filter:blur(16px);"></div>
+    <div class="bezel-outer" style="position:relative;width:100%;max-width:680px;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <div class="bezel-inner" style="padding:0;">
+        <div style="height:300px;position:relative;overflow:hidden;">
+          <img id="modalImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;">
+          <div class="img-overlay"></div>
+          <button onclick="closeModal()" style="position:absolute;top:1rem;right:1rem;background:rgba(9,9,11,0.7);border:1px solid rgba(255,255,255,0.1);border-radius:50%;width:2.5rem;height:2.5rem;cursor:pointer;color:#a1a1aa;display:flex;align-items:center;justify-content:center;">
+            <iconify-icon icon="solar:close-circle-linear" width="20"></iconify-icon>
+          </button>
+        </div>
+        <div style="padding:2rem;">
+          <div class="tag" style="margin-bottom:1rem;" id="modalBrand"></div>
+          <h3 style="font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:300;margin-bottom:0.5rem;" id="modalTitle"></h3>
+          <div style="font-size:0.85rem;color:#71717a;margin-bottom:1.5rem;" id="modalSpec"></div>
+          <div style="font-size:1.75rem;font-weight:700;color:#f0d080;margin-bottom:2rem;" id="modalPrice"></div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <a href="#contact" class="btn-primary" onclick="closeModal()" style="text-decoration:none;flex:1;justify-content:center;">
+              Inquire About This Vehicle
+              <span class="arrow-wrap"><iconify-icon icon="solar:arrow-right-linear" width="14"></iconify-icon></span>
+            </a>
+            <button onclick="closeModal()" class="btn-ghost">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST ============ -->
+  <div id="toast" style="position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(120%);z-index:200;transition:transform 0.5s cubic-bezier(0.16,1,0.3,1);">
+    <div class="glass" style="border-radius:9999px;padding:0.875rem 1.75rem;display:flex;align-items:center;gap:0.75rem;">
+      <iconify-icon icon="solar:check-circle-bold" style="color:#d4a843;" width="20"></iconify-icon>
+      <span style="font-size:0.9rem;font-weight:500;color:#e4e4e7;">Consultation request received. We'll be in touch within 24 hours.</span>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // SCROLL-DRIVEN WEBP FRAME ANIMATION
+    // ============================================================
+    (function() {
+      const TOTAL_FRAMES = 120;
+      const frames = new Array(TOTAL_FRAMES);
+      let loadedCount = 0;
+      let isReady = false;
+      let lastDrawnFrame = -1;
+      let rafId = null;
+
+      // Smooth lerp state
+      let currentFrameF = 0;    // float: current rendered position
+      let targetFrameF  = 0;    // float: where scroll says we should be
+      const LERP_SPEED  = 0.12; // 0 = no follow, 1 = instant (0.12 = silky smooth)
+
+      const canvas  = document.getElementById('heroCanvas');
+      const ctx     = canvas.getContext('2d', { alpha: false });
+      const loader  = document.getElementById('heroLoader');
+      const loaderBar = document.getElementById('loaderBar');
+      const loaderPct = document.getElementById('loaderPct');
+      const progressBar = document.getElementById('scrollProgressBar');
+      const scrollHint = document.getElementById('scrollHint');
+
+      // Hero content elements to animate in after load
+      const heroEls = ['heroTag','heroH1','heroP','heroCTA','heroStats'].map(id => document.getElementById(id));
+
+      // ── Canvas sizing (cover behaviour) ──────────────────────
+      function resizeCanvas() {
+        canvas.width  = window.innerWidth;
+        canvas.height = window.innerHeight;
+        if (isReady && lastDrawnFrame >= 0) drawFrameAt(lastDrawnFrame, true);
+      }
+      window.addEventListener('resize', resizeCanvas, { passive: true });
+      resizeCanvas();
+
+      // ── Cover-fit draw ────────────────────────────────────────
+      function drawFrameAt(idx, force) {
+        idx = Math.max(0, Math.min(TOTAL_FRAMES - 1, Math.round(idx)));
+        if (!force && idx === lastDrawnFrame) return;
+        const img = frames[idx];
+        if (!img || !img.complete || !img.naturalWidth) return;
+
+        const cw = canvas.width, ch = canvas.height;
+        const iw = img.naturalWidth, ih = img.naturalHeight;
+        const cAspect = cw / ch, iAspect = iw / ih;
+        let sx, sy, sw, sh;
+        if (iAspect > cAspect) {
+          sh = ih; sw = sh * cAspect;
+          sx = (iw - sw) / 2; sy = 0;
+        } else {
+          sw = iw; sh = sw / cAspect;
+          sx = 0; sy = (ih - sh) / 2;
+        }
+        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, cw, ch);
+        lastDrawnFrame = idx;
+      }
+
+      // ── Preload all frames ────────────────────────────────────
+      function preload() {
+        for (let i = 0; i < TOTAL_FRAMES; i++) {
+          const img = new Image();
+          const num = String(i + 1).padStart(4, '0');
+          img.src = `frames/frame_${num}.webp`;
+          frames[i] = img;
+          img.onload = () => {
+            loadedCount++;
+            const pct = loadedCount / TOTAL_FRAMES;
+            loaderBar.style.transform = `scaleX(${pct})`;
+            loaderPct.textContent = `Loading — ${Math.round(pct * 100)}%`;
+
+            // Draw first frame immediately when available
+            if (loadedCount === 1) drawFrameAt(0, true);
+
+            if (loadedCount === TOTAL_FRAMES) onAllLoaded();
+          };
+          img.onerror = () => { loadedCount++; if (loadedCount === TOTAL_FRAMES) onAllLoaded(); };
+        }
+      }
+
+      // ── All frames loaded ─────────────────────────────────────
+      function onAllLoaded() {
+        isReady = true;
+        drawFrameAt(0, true);
+
+        // Fade out loader
+        loader.style.opacity = '0';
+        setTimeout(() => { loader.style.display = 'none'; }, 800);
+
+        // Animate hero content in
+        heroEls.forEach(el => {
+          if (el) { el.style.opacity = '1'; el.style.transform = 'translateY(0)'; el.style.filter = 'blur(0)'; }
+        });
+
+        // Start animation loop
+        startLoop();
+      }
+
+      // ── Main RAF loop ─────────────────────────────────────────
+      function startLoop() {
+        function tick() {
+          if (isReady) {
+            // Smooth lerp towards target
+            currentFrameF += (targetFrameF - currentFrameF) * LERP_SPEED;
+            drawFrameAt(currentFrameF);
+          }
+          rafId = requestAnimationFrame(tick);
+        }
+        tick();
+      }
+
+      // ── Scroll handler ────────────────────────────────────────
+      function onScroll() {
+        const heroScroll = document.getElementById('heroScroll');
+        if (!heroScroll) return;
+        const scrollTop = window.scrollY;
+        const scrollMax = heroScroll.offsetHeight - window.innerHeight;
+        const progress  = Math.min(Math.max(scrollTop / scrollMax, 0), 1);
+
+        targetFrameF = progress * (TOTAL_FRAMES - 1);
+
+        // Progress bar
+        progressBar.style.width = (progress * 100) + '%';
+
+        // Hide scroll hint after user starts scrolling
+        if (scrollTop > 80) {
+          scrollHint.style.opacity = '0';
+        } else {
+          scrollHint.style.opacity = '1';
+        }
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // ── Kick off ──────────────────────────────────────────────
+      preload();
+    })();
+
+    // ============================================================
+    // INTERSECTION OBSERVER (rest-of-page reveals)
+    // ============================================================
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('open');
+    }
+
+    function openModal(title, price, imgSeed, spec) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalPrice').textContent = price;
+      document.getElementById('modalImg').src = `https://picsum.photos/seed/${imgSeed}/800/500`;
+      document.getElementById('modalImg').alt = title;
+      document.getElementById('modalSpec').textContent = spec;
+      document.getElementById('modalBrand').textContent = title.split(' ')[0].toUpperCase();
+      document.getElementById('vehicleModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(event) {
+      if (!event || event.target === document.getElementById('vehicleModal')) {
+        document.getElementById('vehicleModal').style.display = 'none';
+        document.body.style.overflow = '';
+      }
+    }
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      const toast = document.getElementById('toast');
+      toast.style.transform = 'translateX(-50%) translateY(0)';
+      setTimeout(() => { toast.style.transform = 'translateX(-50%) translateY(120%)'; }, 4500);
+      e.target.reset();
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(link => {
+      link.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('mainNav');
+      if (window.scrollY > 80) {
+        nav.style.background = 'rgba(9,9,11,0.95)';
+        nav.style.boxShadow = '0 4px 32px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)';
+      } else {
+        nav.style.background = 'rgba(9,9,11,0.75)';
+        nav.style.boxShadow = '0 4px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.06)';
+      }
+    });
+  </script>
+
+</body>
+</html>
