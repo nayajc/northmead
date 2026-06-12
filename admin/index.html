@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Northmead Cardealer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      background: #09090b;
+      color: #e4e4e7;
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.02;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
+      z-index: 1;
+    }
+    .input-field {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 0.75rem;
+      padding: 0.8rem 1rem;
+      color: #e4e4e7;
+      font-size: 0.9rem;
+      font-family: 'DM Sans', sans-serif;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+    .input-field:focus { border-color: rgba(212,168,67,0.5); }
+    .input-field::placeholder { color: #52525b; }
+    .btn {
+      width: 100%;
+      background: linear-gradient(135deg, #d4a843, #b8860b);
+      color: #09090b;
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 0.9rem;
+      border-radius: 0.75rem;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .error-msg {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 0.5rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: #fca5a5;
+      display: none;
+    }
+    label { display: block; font-size: 0.75rem; color: #52525b; margin-bottom: 0.4rem; letter-spacing: 0.05em; text-transform: uppercase; }
+  </style>
+</head>
+<body>
+  <div class="orb" style="width:600px;height:600px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle, rgba(180,140,0,0.08) 0%, transparent 65%);"></div>
+
+  <div class="card">
+    <div style="text-align:center;margin-bottom:2rem;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;letter-spacing:0.12em;color:#d4a843;margin-bottom:0.3rem;">NORTHMEAD CARDEALER</div>
+      <div style="font-size:0.78rem;color:#52525b;letter-spacing:0.05em;">ADMIN PORTAL</div>
+    </div>
+
+    <div class="error-msg" id="errorMsg"></div>
+
+    <form id="loginForm" style="display:flex;flex-direction:column;gap:1rem;">
+      <div>
+        <label>Email Address</label>
+        <input type="email" id="email" class="input-field" placeholder="admin@northmeadcars.com.au" required autocomplete="email">
+      </div>
+      <div>
+        <label>Password</label>
+        <input type="password" id="password" class="input-field" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn" id="loginBtn">Sign In</button>
+    </form>
+
+    <p style="text-align:center;font-size:0.75rem;color:#3f3f46;margin-top:1.5rem;">
+      Access restricted to authorised staff only.
+    </p>
+  </div>
+
+  <script src="../js/firebase-client.js"></script>
+  <script>
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) return;
+      const doc = await firestore.collection('admin_users').doc(user.uid).get();
+      if (doc.exists) window.location.href = 'dashboard.html';
+    });
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      const err = document.getElementById('errorMsg');
+      const email    = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      err.style.display = 'none';
+
+      try {
+        const { user } = await auth.signInWithEmailAndPassword(email, password);
+        const doc = await firestore.collection('admin_users').doc(user.uid).get();
+        if (!doc.exists) {
+          await auth.signOut();
+          err.textContent = 'Your account does not have admin access.';
+          err.style.display = 'block';
+          btn.disabled = false;
+          btn.textContent = 'Sign In';
+          return;
+        }
+        window.location.href = 'dashboard.html';
+      } catch (error) {
+        err.textContent = error.message;
+        err.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+  </script>
+</body>
+</html>

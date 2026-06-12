@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Northmead Admin</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #09090b; color: #e4e4e7; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; opacity: 0.015;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    .sidebar { position: fixed; top: 0; left: 0; bottom: 0; width: 240px; background: rgba(255,255,255,0.02); border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; z-index: 10; }
+    .sidebar-logo { padding: 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.7rem 1.25rem; font-size: 0.85rem; color: #71717a; cursor: pointer; border-radius: 0.5rem; margin: 0 0.5rem; transition: all 0.2s; text-decoration: none; }
+    .nav-item:hover, .nav-item.active { background: rgba(212,168,67,0.08); color: #d4a843; }
+    .main { margin-left: 240px; padding: 2rem; }
+    .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 1rem; }
+    .stat-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 1rem; padding: 1.25rem 1.5rem; }
+    .btn-primary { background: linear-gradient(135deg, #d4a843, #b8860b); color: #09090b; font-weight: 600; font-size: 0.85rem; padding: 0.6rem 1.25rem; border-radius: 0.6rem; border: none; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; font-family: 'DM Sans', sans-serif; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-ghost { background: rgba(255,255,255,0.05); color: #a1a1aa; font-size: 0.82rem; padding: 0.5rem 0.9rem; border-radius: 0.5rem; border: 1px solid rgba(255,255,255,0.08); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .btn-ghost:hover { background: rgba(255,255,255,0.08); color: #e4e4e7; }
+    .btn-danger { background: rgba(239,68,68,0.1); color: #fca5a5; font-size: 0.82rem; padding: 0.5rem 0.9rem; border-radius: 0.5rem; border: 1px solid rgba(239,68,68,0.2); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .btn-danger:hover { background: rgba(239,68,68,0.18); }
+    .input-field { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 0.6rem; padding: 0.65rem 0.9rem; color: #e4e4e7; font-size: 0.875rem; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
+    .input-field:focus { border-color: rgba(212,168,67,0.4); }
+    .input-field::placeholder { color: #3f3f46; }
+    select.input-field option { background: #111113; }
+    label.field-label { display: block; font-size: 0.72rem; color: #52525b; margin-bottom: 0.35rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .table-row { display: grid; grid-template-columns: 60px 1fr 120px 100px 100px 120px; gap: 1rem; align-items: center; padding: 0.9rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+    .table-row:last-child { border-bottom: none; }
+    .table-header { font-size: 0.7rem; color: #52525b; text-transform: uppercase; letter-spacing: 0.06em; background: rgba(255,255,255,0.02); border-radius: 0.75rem 0.75rem 0 0; }
+    .status-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.72rem; font-weight: 500; padding: 0.25rem 0.6rem; border-radius: 99px; }
+    .status-available { background: rgba(34,197,94,0.12); color: #86efac; }
+    .status-sold      { background: rgba(239,68,68,0.12);  color: #fca5a5; }
+    .status-reserved  { background: rgba(234,179,8,0.12);  color: #fde047; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 50; display: none; align-items: flex-start; justify-content: center; padding: 2rem; overflow-y: auto; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #111113; border: 1px solid rgba(255,255,255,0.1); border-radius: 1.25rem; width: 100%; max-width: 760px; margin: auto; }
+    .modal-header { padding: 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .modal-body { padding: 2rem; }
+    .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .section-divider { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: #52525b; margin: 1.5rem 0 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.06); }
+    .image-upload-zone { border: 2px dashed rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 2rem; text-align: center; cursor: pointer; transition: border-color 0.2s; }
+    .image-upload-zone:hover { border-color: rgba(212,168,67,0.3); }
+    .image-preview-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 0.75rem; margin-top: 1rem; }
+    .image-thumb { position: relative; aspect-ratio: 4/3; border-radius: 0.5rem; overflow: hidden; background: rgba(255,255,255,0.03); }
+    .image-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .image-thumb .remove-img { position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.7); border: none; border-radius: 50%; width: 22px; height: 22px; color: #fca5a5; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: #18181b; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.75rem; padding: 0.9rem 1.25rem; font-size: 0.85rem; z-index: 100; display: flex; align-items: center; gap: 0.6rem; transform: translateY(20px); opacity: 0; transition: all 0.3s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { border-color: rgba(34,197,94,0.3); color: #86efac; }
+    .toast.error   { border-color: rgba(239,68,68,0.3);  color: #fca5a5; }
+    .spinner { width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.1); border-top-color: #d4a843; border-radius: 50%; animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    textarea.input-field { resize: vertical; min-height: 100px; }
+    @media (max-width: 900px) { .sidebar { display: none; } .main { margin-left: 0; } .form-grid-2, .form-grid-3 { grid-template-columns: 1fr; } .table-row { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div style="font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:600;letter-spacing:0.1em;color:#d4a843;">NORTHMEAD</div>
+    <div style="font-size:0.7rem;color:#3f3f46;letter-spacing:0.06em;margin-top:2px;">ADMIN PORTAL</div>
+  </div>
+  <div style="padding:1rem 0.5rem;flex:1;">
+    <a href="#" class="nav-item active" onclick="showSection('vehicles',this)">
+      <iconify-icon icon="solar:cars-bold" width="16"></iconify-icon>Vehicles
+    </a>
+    <a href="#" class="nav-item" onclick="showSection('admins',this)">
+      <iconify-icon icon="solar:users-group-rounded-bold" width="16"></iconify-icon>Admin Users
+    </a>
+    <a href="../inventory.html" class="nav-item" target="_blank">
+      <iconify-icon icon="solar:eye-bold" width="16"></iconify-icon>View Public Site
+    </a>
+  </div>
+  <div style="padding:1rem;border-top:1px solid rgba(255,255,255,0.06);">
+    <div style="font-size:0.75rem;color:#52525b;margin-bottom:0.75rem;" id="userEmail">—</div>
+    <button class="btn-ghost" style="width:100%;" onclick="signOut()">
+      <iconify-icon icon="solar:logout-2-linear" width="14"></iconify-icon> Sign Out
+    </button>
+  </div>
+</nav>
+
+<main class="main">
+
+  <section id="section-vehicles">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <h1 style="font-size:1.4rem;font-weight:600;margin-bottom:0.2rem;">Vehicles</h1>
+        <p style="font-size:0.82rem;color:#52525b;">Manage your inventory listings</p>
+      </div>
+      <button class="btn-primary" onclick="openVehicleModal()">
+        <iconify-icon icon="solar:add-circle-bold" width="16"></iconify-icon>Add Vehicle
+      </button>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem;">
+      <div class="stat-card"><div style="font-size:0.72rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem;">Total</div><div style="font-size:1.8rem;font-weight:600;" id="statTotal">—</div></div>
+      <div class="stat-card"><div style="font-size:0.72rem;color:#86efac;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem;">Available</div><div style="font-size:1.8rem;font-weight:600;color:#86efac;" id="statAvailable">—</div></div>
+      <div class="stat-card"><div style="font-size:0.72rem;color:#fde047;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem;">Reserved</div><div style="font-size:1.8rem;font-weight:600;color:#fde047;" id="statReserved">—</div></div>
+      <div class="stat-card"><div style="font-size:0.72rem;color:#fca5a5;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.4rem;">Sold</div><div style="font-size:1.8rem;font-weight:600;color:#fca5a5;" id="statSold">—</div></div>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-bottom:1rem;flex-wrap:wrap;">
+      <input type="text" class="input-field" placeholder="Search vehicles…" id="searchInput" oninput="filterVehicles()" style="max-width:260px;">
+      <select class="input-field" id="statusFilter" onchange="filterVehicles()" style="max-width:160px;">
+        <option value="">All Status</option>
+        <option value="available">Available</option>
+        <option value="reserved">Reserved</option>
+        <option value="sold">Sold</option>
+      </select>
+    </div>
+
+    <div class="card">
+      <div class="table-row table-header">
+        <div>Photo</div><div>Vehicle</div><div>Price</div><div>Status</div><div>Featured</div><div>Actions</div>
+      </div>
+      <div id="vehicleList">
+        <div style="text-align:center;padding:3rem;color:#52525b;"><div class="spinner" style="margin:0 auto 1rem;"></div>Loading vehicles…</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="section-admins" style="display:none;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+      <div>
+        <h1 style="font-size:1.4rem;font-weight:600;margin-bottom:0.2rem;">Admin Users</h1>
+        <p style="font-size:0.82rem;color:#52525b;">Manage portal access</p>
+      </div>
+      <button class="btn-primary" onclick="openAdminModal()">
+        <iconify-icon icon="solar:user-plus-bold" width="16"></iconify-icon>Add Admin
+      </button>
+    </div>
+    <div class="card" style="padding:1.5rem;">
+      <div id="adminList" style="color:#52525b;text-align:center;padding:2rem;">Loading…</div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ VEHICLE MODAL ============ -->
+<div class="modal-overlay" id="vehicleModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2 style="font-size:1.1rem;font-weight:600;" id="modalTitle">Add Vehicle</h2>
+      <button class="btn-ghost" onclick="closeVehicleModal()" style="padding:0.4rem 0.7rem;">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="vehicleId">
+
+      <div class="section-divider">Basic Information</div>
+      <div class="form-grid-2" style="margin-bottom:1rem;">
+        <div><label class="field-label">Title *</label><input type="text" class="input-field" id="fTitle" placeholder="e.g. 2023 Toyota Alphard Executive" required></div>
+        <div><label class="field-label">Price (AUD) *</label><input type="number" class="input-field" id="fPrice" placeholder="85000" min="0" required></div>
+      </div>
+      <div class="form-grid-3" style="margin-bottom:1rem;">
+        <div>
+          <label class="field-label">Make *</label>
+          <select class="input-field" id="fMake">
+            <option value="">Select</option>
+            <option>Toyota</option><option>Lexus</option><option>Nissan</option>
+            <option>Honda</option><option>Mazda</option><option>Subaru</option>
+            <option>Mitsubishi</option><option>Infiniti</option><option>Other</option>
+          </select>
+        </div>
+        <div><label class="field-label">Model *</label><input type="text" class="input-field" id="fModel" placeholder="Alphard"></div>
+        <div><label class="field-label">Year *</label><input type="number" class="input-field" id="fYear" placeholder="2023" min="1990" max="2030"></div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:1rem;">
+        <div><label class="field-label">Odometer (km)</label><input type="number" class="input-field" id="fMileage" placeholder="12500" min="0"></div>
+        <div>
+          <label class="field-label">Status</label>
+          <select class="input-field" id="fStatus">
+            <option value="available">Available</option>
+            <option value="reserved">Reserved</option>
+            <option value="sold">Sold</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:1rem;"><label class="field-label">Description</label><textarea class="input-field" id="fDescription" placeholder="Full description, history, condition notes…"></textarea></div>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem;">
+        <input type="checkbox" id="fFeatured" style="accent-color:#d4a843;width:16px;height:16px;">
+        <label for="fFeatured" style="font-size:0.85rem;color:#a1a1aa;cursor:pointer;">Feature on homepage</label>
+      </div>
+
+      <div class="section-divider">Specifications</div>
+      <div class="form-grid-3" style="margin-bottom:1rem;">
+        <div>
+          <label class="field-label">Body Type</label>
+          <select class="input-field" id="fBodyType">
+            <option value="">Select</option>
+            <option>SUV</option><option>Sedan</option><option>Van / Minivan</option>
+            <option>Wagon</option><option>Coupe</option><option>Hatchback</option>
+            <option>Ute / Truck</option><option>Convertible</option>
+          </select>
+        </div>
+        <div><label class="field-label">Engine</label><input type="text" class="input-field" id="fEngine" placeholder="3.5L V6"></div>
+        <div>
+          <label class="field-label">Transmission</label>
+          <select class="input-field" id="fTransmission">
+            <option value="">Select</option>
+            <option>Automatic</option><option>Manual</option><option>CVT</option><option>DCT</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid-3" style="margin-bottom:1rem;">
+        <div>
+          <label class="field-label">Drive Type</label>
+          <select class="input-field" id="fDriveType">
+            <option value="">Select</option>
+            <option>2WD (FWD)</option><option>2WD (RWD)</option><option>AWD</option><option>4WD</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Fuel Type</label>
+          <select class="input-field" id="fFuelType">
+            <option value="">Select</option>
+            <option>Petrol</option><option>Diesel</option><option>Hybrid</option>
+            <option>Plug-in Hybrid</option><option>Electric</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Steering</label>
+          <select class="input-field" id="fSteering">
+            <option value="">Select</option>
+            <option>Right-Hand Drive</option><option>Left-Hand Drive</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-grid-3" style="margin-bottom:1rem;">
+        <div><label class="field-label">Exterior Colour</label><input type="text" class="input-field" id="fColorExt" placeholder="Pearl White"></div>
+        <div><label class="field-label">Interior Colour</label><input type="text" class="input-field" id="fColorInt" placeholder="Black Leather"></div>
+        <div><label class="field-label">Seats</label><input type="number" class="input-field" id="fSeats" placeholder="7" min="1" max="12"></div>
+      </div>
+      <div class="form-grid-2" style="margin-bottom:1rem;">
+        <div><label class="field-label">Compliance Date</label><input type="month" class="input-field" id="fCompliance"></div>
+        <div><label class="field-label">Rego Expiry</label><input type="month" class="input-field" id="fRegoExpiry"></div>
+      </div>
+
+      <div class="section-divider">Photos</div>
+      <div class="image-upload-zone" id="uploadZone" onclick="document.getElementById('imageInput').click()">
+        <iconify-icon icon="solar:camera-add-bold" width="28" style="color:#52525b;"></iconify-icon>
+        <div style="font-size:0.85rem;color:#52525b;margin-top:0.5rem;">Click or drag to upload photos</div>
+        <div style="font-size:0.75rem;color:#3f3f46;margin-top:0.25rem;">JPG, PNG, WebP — up to 10 images</div>
+      </div>
+      <input type="file" id="imageInput" multiple accept="image/*" style="display:none;" onchange="handleImageSelect(this.files)">
+      <div class="image-preview-grid" id="imagePreviewGrid"></div>
+
+      <div id="uploadProgress" style="display:none;margin-top:1rem;">
+        <div style="font-size:0.78rem;color:#52525b;margin-bottom:0.5rem;" id="uploadProgressText">Uploading images…</div>
+        <div style="background:rgba(255,255,255,0.06);border-radius:99px;height:4px;">
+          <div id="uploadProgressBar" style="background:#d4a843;height:4px;border-radius:99px;width:0%;transition:width 0.3s;"></div>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:2rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1.5rem;">
+        <button class="btn-ghost" onclick="closeVehicleModal()">Cancel</button>
+        <button class="btn-primary" id="saveVehicleBtn" onclick="saveVehicle()">
+          <iconify-icon icon="solar:check-circle-bold" width="16"></iconify-icon>Save Vehicle
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ADD ADMIN MODAL ============ -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal" style="max-width:440px;">
+    <div class="modal-header">
+      <h2 style="font-size:1.1rem;font-weight:600;">Add Admin User</h2>
+      <button class="btn-ghost" onclick="closeAdminModal()" style="padding:0.4rem 0.7rem;">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.82rem;color:#71717a;margin-bottom:1.25rem;line-height:1.6;">
+        First create the user in <strong style="color:#a1a1aa;">Firebase Console → Authentication → Add User</strong>.
+        Then paste their UID below to grant admin access.
+      </p>
+      <div style="margin-bottom:1rem;"><label class="field-label">User UID</label><input type="text" class="input-field" id="adminUid" placeholder="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"></div>
+      <div style="margin-bottom:1rem;"><label class="field-label">Email</label><input type="email" class="input-field" id="adminEmail" placeholder="admin@northmeadcars.com.au"></div>
+      <div style="margin-bottom:1.5rem;"><label class="field-label">Full Name</label><input type="text" class="input-field" id="adminName" placeholder="Jane Smith"></div>
+      <div style="display:flex;justify-content:flex-end;gap:0.75rem;">
+        <button class="btn-ghost" onclick="closeAdminModal()">Cancel</button>
+        <button class="btn-primary" onclick="addAdmin()">Add Admin</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="../js/firebase-client.js"></script>
+<script>
+  let allVehicles = [];
+  let pendingImages = [];
+  let existingImages = [];
+
+  // ── Auth guard ─────────────────────────────────────────────
+  auth.onAuthStateChanged(async (user) => {
+    if (!user) { window.location.href = 'index.html'; return; }
+    const doc = await firestore.collection('admin_users').doc(user.uid).get();
+    if (!doc.exists) { await auth.signOut(); window.location.href = 'index.html'; return; }
+    document.getElementById('userEmail').textContent = doc.data().email || user.email;
+    loadVehicles();
+  });
+
+  async function signOut() { await auth.signOut(); window.location.href = 'index.html'; }
+
+  function showSection(name, el) {
+    event.preventDefault();
+    document.querySelectorAll('section[id^="section-"]').forEach(s => s.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('section-' + name).style.display = '';
+    el.classList.add('active');
+    if (name === 'admins') loadAdmins();
+  }
+
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast ' + type + ' show';
+    setTimeout(() => t.className = 'toast', 3000);
+  }
+
+  // ── Vehicles ──────────────────────────────────────────────
+  async function loadVehicles() {
+    try {
+      const snap = await firestore.collection('vehicles').orderBy('created_at', 'desc').get();
+      allVehicles = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+      updateStats();
+      renderVehicles(allVehicles);
+    } catch (e) {
+      showToast(e.message, 'error');
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('statTotal').textContent     = allVehicles.length;
+    document.getElementById('statAvailable').textContent = allVehicles.filter(v => v.status === 'available').length;
+    document.getElementById('statReserved').textContent  = allVehicles.filter(v => v.status === 'reserved').length;
+    document.getElementById('statSold').textContent      = allVehicles.filter(v => v.status === 'sold').length;
+  }
+
+  function filterVehicles() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    const s = document.getElementById('statusFilter').value;
+    const filtered = allVehicles.filter(v => {
+      const matchQ = !q || (v.title + v.make + v.model).toLowerCase().includes(q);
+      return matchQ && (!s || v.status === s);
+    });
+    renderVehicles(filtered);
+  }
+
+  function renderVehicles(list) {
+    const el = document.getElementById('vehicleList');
+    if (!list.length) { el.innerHTML = '<div style="text-align:center;padding:3rem;color:#52525b;">No vehicles found.</div>'; return; }
+    el.innerHTML = list.map(v => {
+      const thumb = v.images && v.images[0]
+        ? `<img src="${v.images[0]}" style="width:100%;height:100%;object-fit:cover;border-radius:0.4rem;">`
+        : `<div style="width:48px;height:36px;background:rgba(255,255,255,0.05);border-radius:0.4rem;display:flex;align-items:center;justify-content:center;color:#3f3f46;"><iconify-icon icon="solar:car-bold" width="18"></iconify-icon></div>`;
+      const featured = v.featured ? `<span style="color:#d4a843;font-size:0.75rem;">★</span>` : `<span style="color:#3f3f46;font-size:0.75rem;">—</span>`;
+      return `
+        <div class="table-row">
+          <div style="width:48px;height:36px;">${thumb}</div>
+          <div>
+            <div style="font-weight:500;font-size:0.88rem;">${v.title}</div>
+            <div style="font-size:0.75rem;color:#52525b;">${v.year} · ${v.mileage ? Number(v.mileage).toLocaleString() + ' km' : 'N/A'}</div>
+          </div>
+          <div style="font-weight:600;color:#d4a843;">$${Number(v.price).toLocaleString()}</div>
+          <div><span class="status-badge status-${v.status}">${v.status}</span></div>
+          <div>${featured}</div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="btn-ghost" onclick="editVehicle('${v.id}')">Edit</button>
+            <button class="btn-danger" onclick="deleteVehicle('${v.id}')">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Vehicle Modal ─────────────────────────────────────────
+  function openVehicleModal(vehicle = null) {
+    pendingImages = [];
+    existingImages = [];
+    document.getElementById('vehicleId').value = '';
+    document.getElementById('modalTitle').textContent = 'Add Vehicle';
+    clearForm();
+    if (vehicle) {
+      document.getElementById('modalTitle').textContent = 'Edit Vehicle';
+      document.getElementById('vehicleId').value = vehicle.id;
+      document.getElementById('fTitle').value       = vehicle.title || '';
+      document.getElementById('fPrice').value       = vehicle.price || '';
+      document.getElementById('fMake').value        = vehicle.make || '';
+      document.getElementById('fModel').value       = vehicle.model || '';
+      document.getElementById('fYear').value        = vehicle.year || '';
+      document.getElementById('fMileage').value     = vehicle.mileage || '';
+      document.getElementById('fStatus').value      = vehicle.status || 'available';
+      document.getElementById('fDescription').value = vehicle.description || '';
+      document.getElementById('fFeatured').checked  = vehicle.featured || false;
+      const s = vehicle.specs || {};
+      document.getElementById('fBodyType').value     = s.body_type || '';
+      document.getElementById('fEngine').value       = s.engine || '';
+      document.getElementById('fTransmission').value = s.transmission || '';
+      document.getElementById('fDriveType').value    = s.drive_type || '';
+      document.getElementById('fFuelType').value     = s.fuel_type || '';
+      document.getElementById('fSteering').value     = s.steering || '';
+      document.getElementById('fColorExt').value     = s.color_exterior || '';
+      document.getElementById('fColorInt').value     = s.color_interior || '';
+      document.getElementById('fSeats').value        = s.seats || '';
+      document.getElementById('fCompliance').value   = s.compliance_date || '';
+      document.getElementById('fRegoExpiry').value   = s.rego_expiry || '';
+      existingImages = [...(vehicle.images || [])];
+      renderImagePreviews();
+    }
+    document.getElementById('vehicleModal').classList.add('open');
+  }
+
+  function closeVehicleModal() { document.getElementById('vehicleModal').classList.remove('open'); }
+
+  function clearForm() {
+    ['fTitle','fPrice','fMake','fModel','fYear','fMileage','fDescription',
+     'fBodyType','fEngine','fTransmission','fDriveType','fFuelType','fSteering',
+     'fColorExt','fColorInt','fSeats','fCompliance','fRegoExpiry'].forEach(id => {
+      const el = document.getElementById(id); if (el) el.value = '';
+    });
+    document.getElementById('fStatus').value = 'available';
+    document.getElementById('fFeatured').checked = false;
+    document.getElementById('imagePreviewGrid').innerHTML = '';
+    document.getElementById('imageInput').value = '';
+  }
+
+  function editVehicle(id) {
+    const v = allVehicles.find(x => x.id === id);
+    if (v) openVehicleModal(v);
+  }
+
+  async function deleteVehicle(id) {
+    if (!confirm('Delete this vehicle? This cannot be undone.')) return;
+    try {
+      await firestore.collection('vehicles').doc(id).delete();
+      showToast('Vehicle deleted');
+      loadVehicles();
+    } catch (e) { showToast(e.message, 'error'); }
+  }
+
+  async function saveVehicle() {
+    const btn = document.getElementById('saveVehicleBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Saving…';
+
+    const existingId = document.getElementById('vehicleId').value;
+    const id = existingId || firestore.collection('vehicles').doc().id;
+
+    // Upload new images with progress
+    let uploadedUrls = [];
+    if (pendingImages.length) {
+      document.getElementById('uploadProgress').style.display = 'block';
+      for (let i = 0; i < pendingImages.length; i++) {
+        document.getElementById('uploadProgressText').textContent = `Uploading image ${i + 1} of ${pendingImages.length}…`;
+        document.getElementById('uploadProgressBar').style.width = `${Math.round((i / pendingImages.length) * 100)}%`;
+        try {
+          const url = await uploadImage(pendingImages[i].file, id);
+          uploadedUrls.push(url);
+        } catch (e) {
+          showToast('Upload failed: ' + e.message, 'error');
+          document.getElementById('uploadProgress').style.display = 'none';
+          btn.disabled = false;
+          btn.innerHTML = '<iconify-icon icon="solar:check-circle-bold" width="16"></iconify-icon> Save Vehicle';
+          return;
+        }
+      }
+      document.getElementById('uploadProgressBar').style.width = '100%';
+      document.getElementById('uploadProgress').style.display = 'none';
+    }
+
+    const payload = {
+      title:       document.getElementById('fTitle').value.trim(),
+      make:        document.getElementById('fMake').value,
+      model:       document.getElementById('fModel').value.trim(),
+      year:        parseInt(document.getElementById('fYear').value),
+      price:       parseFloat(document.getElementById('fPrice').value),
+      mileage:     parseInt(document.getElementById('fMileage').value) || null,
+      status:      document.getElementById('fStatus').value,
+      description: document.getElementById('fDescription').value.trim(),
+      featured:    document.getElementById('fFeatured').checked,
+      images:      [...existingImages, ...uploadedUrls],
+      specs: {
+        body_type:       document.getElementById('fBodyType').value,
+        engine:          document.getElementById('fEngine').value.trim(),
+        transmission:    document.getElementById('fTransmission').value,
+        drive_type:      document.getElementById('fDriveType').value,
+        fuel_type:       document.getElementById('fFuelType').value,
+        steering:        document.getElementById('fSteering').value,
+        color_exterior:  document.getElementById('fColorExt').value.trim(),
+        color_interior:  document.getElementById('fColorInt').value.trim(),
+        seats:           parseInt(document.getElementById('fSeats').value) || null,
+        compliance_date: document.getElementById('fCompliance').value,
+        rego_expiry:     document.getElementById('fRegoExpiry').value,
+      },
+      updated_at: new Date().toISOString(),
+    };
+
+    if (!existingId) payload.created_at = new Date().toISOString();
+
+    try {
+      if (existingId) {
+        await firestore.collection('vehicles').doc(existingId).update(payload);
+      } else {
+        await firestore.collection('vehicles').doc(id).set(payload);
+      }
+      showToast(existingId ? 'Vehicle updated!' : 'Vehicle added!');
+      closeVehicleModal();
+      loadVehicles();
+    } catch (e) {
+      showToast(e.message, 'error');
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<iconify-icon icon="solar:check-circle-bold" width="16"></iconify-icon> Save Vehicle';
+  }
+
+  // ── Image handling ─────────────────────────────────────────
+  function handleImageSelect(files) {
+    for (const file of Array.from(files)) {
+      if (pendingImages.length + existingImages.length >= 10) break;
+      pendingImages.push({ file, previewUrl: URL.createObjectURL(file) });
+    }
+    renderImagePreviews();
+  }
+
+  function renderImagePreviews() {
+    const allPreviews = [
+      ...existingImages.map(url => ({ url, existing: true })),
+      ...pendingImages.map(p => ({ url: p.previewUrl, existing: false })),
+    ];
+    document.getElementById('imagePreviewGrid').innerHTML = allPreviews.map((p, i) => `
+      <div class="image-thumb">
+        <img src="${p.url}" alt="">
+        <button class="remove-img" onclick="removeImage(${i}, ${p.existing})">✕</button>
+      </div>`).join('');
+  }
+
+  function removeImage(i, isExisting) {
+    if (isExisting) existingImages.splice(i, 1);
+    else pendingImages.splice(i - existingImages.length, 1);
+    renderImagePreviews();
+  }
+
+  const zone = document.getElementById('uploadZone');
+  zone.addEventListener('dragover', e => { e.preventDefault(); zone.style.borderColor = 'rgba(212,168,67,0.5)'; });
+  zone.addEventListener('dragleave', () => { zone.style.borderColor = 'rgba(255,255,255,0.1)'; });
+  zone.addEventListener('drop', e => { e.preventDefault(); zone.style.borderColor = 'rgba(255,255,255,0.1)'; handleImageSelect(e.dataTransfer.files); });
+
+  // ── Admins ─────────────────────────────────────────────────
+  async function loadAdmins() {
+    try {
+      const snap = await firestore.collection('admin_users').orderBy('created_at').get();
+      const el = document.getElementById('adminList');
+      if (snap.empty) { el.textContent = 'No admin users found.'; return; }
+      el.innerHTML = snap.docs.map(d => {
+        const a = d.data();
+        return `
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div>
+              <div style="font-size:0.88rem;font-weight:500;">${a.full_name || '—'}</div>
+              <div style="font-size:0.75rem;color:#52525b;">${a.email}</div>
+              <div style="font-size:0.68rem;color:#3f3f46;margin-top:2px;">UID: ${d.id}</div>
+            </div>
+            <button class="btn-danger" onclick="removeAdmin('${d.id}')">Remove</button>
+          </div>`;
+      }).join('');
+    } catch (e) { document.getElementById('adminList').textContent = 'Failed to load admins.'; }
+  }
+
+  function openAdminModal() { document.getElementById('adminModal').classList.add('open'); }
+  function closeAdminModal() { document.getElementById('adminModal').classList.remove('open'); }
+
+  async function addAdmin() {
+    const uid   = document.getElementById('adminUid').value.trim();
+    const email = document.getElementById('adminEmail').value.trim();
+    const name  = document.getElementById('adminName').value.trim();
+    if (!uid || !email) { showToast('UID and email are required', 'error'); return; }
+    try {
+      await firestore.collection('admin_users').doc(uid).set({
+        email,
+        full_name: name || null,
+        created_at: new Date().toISOString(),
+      });
+      showToast('Admin added!');
+      closeAdminModal();
+      loadAdmins();
+    } catch (e) { showToast(e.message, 'error'); }
+  }
+
+  async function removeAdmin(id) {
+    if (!confirm('Remove this admin? They will lose portal access.')) return;
+    try {
+      await firestore.collection('admin_users').doc(id).delete();
+      showToast('Admin removed');
+      loadAdmins();
+    } catch (e) { showToast(e.message, 'error'); }
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vehicle Detail — Northmead Cardealer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/2.3.0/iconify-icon.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { background: #09090b; color: #e4e4e7; font-family: 'DM Sans', sans-serif; overflow-x: hidden; }
+    body::before {
+      content: ''; position: fixed; inset: 0; pointer-events: none; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 180px 180px;
+    }
+    nav { border-bottom: 1px solid rgba(255,255,255,0.06); position: sticky; top: 0; background: rgba(9,9,11,0.9); backdrop-filter: blur(20px); z-index: 20; }
+    .text-gold-gradient { background: linear-gradient(135deg, #f0d080 0%, #d4a843 50%, #b8860b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .thumb-strip { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; }
+    .thumb-strip::-webkit-scrollbar { height: 4px; }
+    .thumb-strip::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .thumb-item { flex-shrink: 0; width: 90px; aspect-ratio: 4/3; border-radius: 0.5rem; overflow: hidden; border: 2px solid transparent; cursor: pointer; transition: border-color 0.2s; }
+    .thumb-item.active { border-color: #d4a843; }
+    .thumb-item img { width: 100%; height: 100%; object-fit: cover; }
+    .spec-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.875rem; }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { color: #52525b; }
+    .spec-value { font-weight: 500; color: #e4e4e7; }
+    .status-badge { display: inline-flex; align-items: center; font-size: 0.72rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.04em; }
+    .badge-available { background: rgba(34,197,94,0.12); color: #86efac; }
+    .badge-reserved  { background: rgba(234,179,8,0.12);  color: #fde047; }
+    .badge-sold      { background: rgba(239,68,68,0.12);  color: #fca5a5; }
+    .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #d4a843, #b8860b); color: #09090b; font-weight: 700; font-size: 0.9rem; padding: 0.9rem 2rem; border-radius: 0.75rem; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; text-decoration: none; transition: opacity 0.2s; }
+    .btn-primary:hover { opacity: 0.9; }
+    .glass-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 1rem; padding: 1.5rem; }
+    @media (max-width: 768px) { .detail-grid { grid-template-columns: 1fr !important; } .sticky-panel { position: static !important; } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;">
+    <a href="index.html" style="font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;letter-spacing:0.1em;color:#d4a843;text-decoration:none;">NORTHMEAD CARDEALER</a>
+    <div style="display:flex;gap:1.5rem;align-items:center;">
+      <a href="inventory.html" style="font-size:0.82rem;color:#71717a;text-decoration:none;" onmouseover="this.style.color='#e4e4e7'" onmouseout="this.style.color='#71717a'">← Back to Inventory</a>
+      <a href="index.html#contact" style="font-size:0.82rem;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);color:#d4a843;padding:0.45rem 1rem;border-radius:0.5rem;text-decoration:none;">Enquire</a>
+    </div>
+  </div>
+</nav>
+
+<div id="pageContent" style="max-width:1280px;margin:0 auto;padding:2.5rem 1.5rem 6rem;">
+  <div style="text-align:center;padding:6rem;color:#52525b;">Loading vehicle…</div>
+</div>
+
+<script src="js/firebase-client.js"></script>
+<script>
+  const params    = new URLSearchParams(location.search);
+  const vehicleId = params.get('id');
+
+  if (!vehicleId) {
+    document.getElementById('pageContent').innerHTML = '<div style="text-align:center;padding:6rem;color:#fca5a5;">No vehicle specified.</div>';
+  } else {
+    loadVehicle();
+  }
+
+  async function loadVehicle() {
+    try {
+      const doc = await firestore.collection('vehicles').doc(vehicleId).get();
+      if (!doc.exists) throw new Error('Not found');
+      render({ id: doc.id, ...doc.data() });
+    } catch {
+      document.getElementById('pageContent').innerHTML = '<div style="text-align:center;padding:6rem;color:#fca5a5;">Vehicle not found.</div>';
+    }
+  }
+
+  function render(v) {
+    document.title = `${v.title} — Northmead Cardealer`;
+    const s      = v.specs || {};
+    const images = v.images && v.images.length ? v.images : [];
+
+    const specsMap = [
+      ['Body Type',       s.body_type],
+      ['Engine',          s.engine],
+      ['Transmission',    s.transmission],
+      ['Drive Type',      s.drive_type],
+      ['Fuel Type',       s.fuel_type],
+      ['Steering',        s.steering],
+      ['Exterior Colour', s.color_exterior],
+      ['Interior Colour', s.color_interior],
+      ['Seats',           s.seats],
+      ['Odometer',        v.mileage ? Number(v.mileage).toLocaleString() + ' km' : null],
+      ['Compliance',      s.compliance_date ? fmtMonth(s.compliance_date) : null],
+      ['Rego Expiry',     s.rego_expiry     ? fmtMonth(s.rego_expiry)     : null],
+    ].filter(([, val]) => val);
+
+    const mainImg = images[0]
+      ? `<img id="mainImg" src="${images[0]}" alt="${v.title}" style="width:100%;height:100%;object-fit:cover;">`
+      : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111113;color:#3f3f46;"><iconify-icon icon="solar:car-bold" width="64"></iconify-icon></div>`;
+
+    const thumbs = images.map((url, i) => `
+      <div class="thumb-item ${i === 0 ? 'active' : ''}" onclick="switchImage('${url}',this)">
+        <img src="${url}" alt="" loading="lazy">
+      </div>`).join('');
+
+    const specRows = specsMap.map(([label, val]) => `
+      <div class="spec-row">
+        <span class="spec-label">${label}</span>
+        <span class="spec-value">${val}</span>
+      </div>`).join('');
+
+    const soldOverlay = v.status === 'sold'
+      ? `<div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;border-radius:1rem;">
+           <span style="font-size:2rem;font-weight:700;color:#fca5a5;letter-spacing:0.2em;border:2px solid #fca5a5;padding:0.5rem 2rem;border-radius:0.5rem;transform:rotate(-10deg);">SOLD</span>
+         </div>` : '';
+
+    document.getElementById('pageContent').innerHTML = `
+      <div class="detail-grid" style="display:grid;grid-template-columns:1fr 380px;gap:2.5rem;align-items:start;">
+        <div>
+          <div style="aspect-ratio:16/10;background:#111113;border-radius:1rem;overflow:hidden;position:relative;margin-bottom:0.75rem;">
+            ${mainImg}${soldOverlay}
+          </div>
+          ${images.length > 1 ? `<div class="thumb-strip">${thumbs}</div>` : ''}
+          ${v.description ? `
+          <div class="glass-card" style="margin-top:1.5rem;">
+            <div style="font-size:0.72rem;color:#52525b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.75rem;">Description</div>
+            <p style="font-size:0.9rem;color:#a1a1aa;line-height:1.8;white-space:pre-line;">${v.description}</p>
+          </div>` : ''}
+        </div>
+
+        <div class="sticky-panel" style="position:sticky;top:84px;">
+          <div style="margin-bottom:0.5rem;"><span class="status-badge badge-${v.status}">${v.status}</span></div>
+          <div style="font-size:0.78rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem;">${v.make} · ${v.year}</div>
+          <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;line-height:1.2;margin-bottom:0.75rem;">${v.title}</h1>
+          <div style="font-size:2rem;font-weight:700;color:#d4a843;margin-bottom:1.5rem;">$${Number(v.price).toLocaleString()}</div>
+
+          ${v.status !== 'sold' ? `
+          <a href="index.html#contact" class="btn-primary" style="width:100%;justify-content:center;margin-bottom:0.75rem;">
+            <iconify-icon icon="solar:phone-calling-bold" width="16"></iconify-icon>
+            Enquire About This Car
+          </a>
+          <p style="font-size:0.75rem;color:#52525b;text-align:center;margin-bottom:1.5rem;">No obligation · Respond within 24 hours</p>` : ''}
+
+          <div class="glass-card">
+            <div style="font-size:0.72rem;color:#52525b;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:0.75rem;">Specifications</div>
+            ${specRows || '<div style="color:#52525b;font-size:0.85rem;">No specs listed.</div>'}
+          </div>
+
+          <div style="margin-top:1rem;padding:1rem;background:rgba(212,168,67,0.04);border:1px solid rgba(212,168,67,0.1);border-radius:0.75rem;">
+            <div style="display:flex;gap:0.5rem;align-items:flex-start;">
+              <iconify-icon icon="solar:shield-check-bold" width="16" style="color:#d4a843;flex-shrink:0;margin-top:2px;"></iconify-icon>
+              <div style="font-size:0.78rem;color:#71717a;line-height:1.6;">All vehicles are sourced from Japanese domestic market auctions and fully complied for Australian roads.</div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function switchImage(url, el) {
+    document.getElementById('mainImg').src = url;
+    document.querySelectorAll('.thumb-item').forEach(t => t.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function fmtMonth(val) {
+    if (!val) return '';
+    const [y, m] = val.split('-');
+    return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][parseInt(m)-1] + ' ' + y;
+  }
+</script>
+</body>
+</html>
