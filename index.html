@@ -13,6 +13,7 @@
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
   <script src="js/firebase-client.js"></script>
+  <script src="js/brand-logos.js"></script>
   <script>
     tailwind.config = {
       theme: {
@@ -1103,6 +1104,7 @@
                 <div class="img-overlay"></div>
                 <div style="position:absolute;inset:0;padding:${i === 0 ? '1.75rem' : '1.25rem'};display:flex;flex-direction:column;justify-content:flex-end;">
                   <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:${i === 0 ? '0.6rem' : '0.4rem'};">
+                    ${brandLogo(v.make, 22)}
                     <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;color:#d4a843;border:1px solid rgba(212,168,67,0.3);padding:0.2rem 0.6rem;border-radius:9999px;">${v.make.toUpperCase()}</span>
                     ${v.status === 'reserved' ? '<span style="font-size:0.65rem;font-weight:600;color:#fde047;border:1px solid rgba(234,179,8,0.3);padding:0.2rem 0.5rem;border-radius:9999px;">RESERVED</span>' : ''}
                   </div>

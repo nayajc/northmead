@@ -57,6 +57,7 @@
 </div>
 
 <script src="js/firebase-client.js"></script>
+<script src="js/brand-logos.js"></script>
 <script>
   const params    = new URLSearchParams(location.search);
   const vehicleId = params.get('id');
@@ -133,7 +134,10 @@
 
         <div class="sticky-panel" style="position:sticky;top:84px;">
           <div style="margin-bottom:0.5rem;"><span class="status-badge badge-${v.status}">${v.status}</span></div>
-          <div style="font-size:0.78rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem;">${v.make} · ${v.year}</div>
+          <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:0.3rem;">
+            ${brandLogo(v.make, 26)}
+            <span style="font-size:0.78rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;">${v.make} · ${v.year}</span>
+          </div>
           <h1 style="font-family:'Cormorant Garamond',serif;font-size:clamp(1.5rem,3vw,2rem);font-weight:400;line-height:1.2;margin-bottom:0.75rem;">${v.title}</h1>
           <div style="font-size:2rem;font-weight:700;color:#d4a843;margin-bottom:1.5rem;">$${Number(v.price).toLocaleString()}</div>
 

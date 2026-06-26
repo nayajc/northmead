@@ -105,6 +105,7 @@
 </footer>
 
 <script src="js/firebase-client.js"></script>
+<script src="js/brand-logos.js"></script>
 <script>
   let vehicles = [];
   let activeStatus = '';
@@ -177,7 +178,10 @@
             </div>
           </div>
           <div style="padding:1.25rem;">
-            <div style="font-size:0.72rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.35rem;">${v.make} · ${v.year}</div>
+            <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.35rem;">
+              ${brandLogo(v.make, 22)}
+              <span style="font-size:0.72rem;color:#52525b;text-transform:uppercase;letter-spacing:0.05em;">${v.make} · ${v.year}</span>
+            </div>
             <div style="font-size:1rem;font-weight:600;margin-bottom:0.5rem;line-height:1.3;">${v.title}</div>
             <div style="font-size:1.25rem;font-weight:700;color:#d4a843;margin-bottom:0.75rem;">$${Number(v.price).toLocaleString()}</div>
             <div style="font-size:0.75rem;color:#52525b;margin-bottom:0.75rem;">
