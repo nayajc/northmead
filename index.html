@@ -594,10 +594,149 @@
               <span style="font-size:0.9rem;color:#a1a1aa;">Streamlined approval process — finance arranged before delivery</span>
             </div>
           </div>
+          <div style="margin-top:2rem;">
+            <button onclick="openFinanceModal()" style="display:inline-flex;align-items:center;gap:0.5rem;background:linear-gradient(135deg,#d4a843,#b8860b);color:#09090b;font-weight:700;font-size:0.9rem;padding:0.9rem 2rem;border-radius:0.75rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+              <iconify-icon icon="solar:calculator-bold" width="16"></iconify-icon>
+              Get Finance Enquiry
+            </button>
+            <div style="font-size:0.75rem;color:#52525b;margin-top:0.6rem;">No obligation · We'll contact you within 24 hours</div>
+          </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ============ FINANCE MODAL ============ -->
+  <div id="financeModal" style="position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:1rem;" onclick="closeFinanceModal(event)">
+    <div style="position:absolute;inset:0;background:rgba(9,9,11,0.88);backdrop-filter:blur(16px);"></div>
+    <div style="position:relative;z-index:1;background:#111113;border:1px solid rgba(255,255,255,0.08);border-radius:1.5rem;padding:2.5rem;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;" onclick="event.stopPropagation()">
+      <!-- Close -->
+      <button onclick="closeFinanceModal()" style="position:absolute;top:1.25rem;right:1.25rem;background:rgba(255,255,255,0.06);border:none;color:#71717a;width:2rem;height:2rem;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.1rem;transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.12)'" onmouseout="this.style.background='rgba(255,255,255,0.06)'">&times;</button>
+
+      <!-- Header -->
+      <div style="margin-bottom:0.3rem;display:inline-flex;align-items:center;gap:0.4rem;background:rgba(212,168,67,0.08);border:1px solid rgba(212,168,67,0.15);padding:0.25rem 0.75rem;border-radius:99px;font-size:0.7rem;color:#d4a843;letter-spacing:0.06em;text-transform:uppercase;">
+        <iconify-icon icon="solar:calculator-bold" width="10"></iconify-icon>Finance Enquiry
+      </div>
+      <h3 style="font-family:'Cormorant Garamond',serif;font-size:1.75rem;font-weight:300;margin:0.6rem 0 0.4rem;line-height:1.2;">Apply for <span style="color:#d4a843;font-style:italic;">Finance</span></h3>
+      <p style="font-size:0.82rem;color:#71717a;margin-bottom:1.75rem;line-height:1.6;">Fill in your details and our finance specialist will contact you within 24 hours.</p>
+
+      <!-- Success State -->
+      <div id="financeSuccess" style="display:none;text-align:center;padding:2rem 0;">
+        <div style="width:3.5rem;height:3.5rem;background:rgba(34,197,94,0.12);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;">
+          <iconify-icon icon="solar:check-circle-bold" style="color:#86efac;" width="28"></iconify-icon>
+        </div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:300;margin-bottom:0.5rem;">Enquiry Received!</div>
+        <p style="font-size:0.85rem;color:#71717a;line-height:1.6;">Thank you. Our finance specialist will be in touch with you shortly — usually within 24 hours on business days.</p>
+        <button onclick="closeFinanceModal()" style="margin-top:1.5rem;padding:0.7rem 1.75rem;background:rgba(212,168,67,0.1);border:1px solid rgba(212,168,67,0.25);color:#d4a843;border-radius:0.65rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:0.85rem;transition:background 0.2s;" onmouseover="this.style.background='rgba(212,168,67,0.18)'" onmouseout="this.style.background='rgba(212,168,67,0.1)'">Close</button>
+      </div>
+
+      <!-- Form -->
+      <form id="financeForm" onsubmit="submitFinanceForm(event)">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">First Name *</label>
+            <input type="text" name="firstName" required placeholder="John" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Last Name *</label>
+            <input type="text" name="lastName" required placeholder="Smith" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+          </div>
+        </div>
+        <div style="margin-bottom:0.75rem;">
+          <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Phone Number *</label>
+          <input type="tel" name="phone" required placeholder="04XX XXX XXX" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+          <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Email Address *</label>
+          <input type="email" name="email" required placeholder="john@example.com" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+        </div>
+        <div style="margin-bottom:0.75rem;">
+          <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Vehicle of Interest</label>
+          <input type="text" name="vehicle" placeholder="e.g. 2023 Toyota Land Cruiser" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:0.75rem;">
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Loan Amount</label>
+            <select name="loanAmount" style="width:100%;background:#111113;border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+              <option value="">Select range</option>
+              <option>Under $30,000</option>
+              <option>$30,000 – $60,000</option>
+              <option>$60,000 – $100,000</option>
+              <option>$100,000 – $150,000</option>
+              <option>$150,000+</option>
+            </select>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Employment Status</label>
+            <select name="employment" style="width:100%;background:#111113;border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'">
+              <option value="">Select</option>
+              <option>Full-time employed</option>
+              <option>Part-time employed</option>
+              <option>Self-employed</option>
+              <option>Business owner</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+        <div style="margin-bottom:1.25rem;">
+          <label style="display:block;font-size:0.75rem;color:#71717a;margin-bottom:0.35rem;">Additional Notes</label>
+          <textarea name="notes" rows="3" placeholder="Any other details you'd like us to know…" style="width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:0.6rem;padding:0.65rem 0.85rem;color:#e4e4e7;font-size:0.875rem;font-family:'DM Sans',sans-serif;outline:none;resize:none;transition:border-color 0.2s;" onfocus="this.style.borderColor='rgba(212,168,67,0.4)'" onblur="this.style.borderColor='rgba(255,255,255,0.08)'"></textarea>
+        </div>
+        <button type="submit" id="financeSubmitBtn" style="width:100%;display:flex;align-items:center;justify-content:center;gap:0.5rem;background:linear-gradient(135deg,#d4a843,#b8860b);color:#09090b;font-weight:700;font-size:0.9rem;padding:0.9rem;border-radius:0.75rem;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:opacity 0.2s;" onmouseover="this.style.opacity='0.88'" onmouseout="this.style.opacity='1'">
+          <iconify-icon icon="solar:letter-bold" width="16"></iconify-icon>
+          Submit Finance Enquiry
+        </button>
+        <p style="font-size:0.72rem;color:#3f3f46;text-align:center;margin-top:0.75rem;line-height:1.5;">Your information is used solely for finance consultation purposes and never shared with third parties.</p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function openFinanceModal() {
+      document.getElementById('financeModal').style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+    }
+    function closeFinanceModal(e) {
+      if (e && e.target !== document.getElementById('financeModal')) return;
+      document.getElementById('financeModal').style.display = 'none';
+      document.body.style.overflow = '';
+      // reset
+      document.getElementById('financeForm').style.display = 'block';
+      document.getElementById('financeSuccess').style.display = 'none';
+      document.getElementById('financeForm').reset();
+    }
+    async function submitFinanceForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById('financeSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<iconify-icon icon="solar:refresh-bold" width="16" style="animation:spin 1s linear infinite"></iconify-icon> Submitting…';
+
+      const form = e.target;
+      const data = {
+        type: 'finance_enquiry',
+        firstName:   form.firstName.value,
+        lastName:    form.lastName.value,
+        phone:       form.phone.value,
+        email:       form.email.value,
+        vehicle:     form.vehicle.value,
+        loanAmount:  form.loanAmount.value,
+        employment:  form.employment.value,
+        notes:       form.notes.value,
+        submitted_at: new Date().toISOString(),
+      };
+
+      try {
+        await firestore.collection('finance_enquiries').add(data);
+      } catch (err) {
+        console.error('Firestore save failed:', err);
+      }
+
+      form.style.display = 'none';
+      document.getElementById('financeSuccess').style.display = 'block';
+      btn.disabled = false;
+    }
+  </script>
+  <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
 
   <div class="divider"></div>
 
