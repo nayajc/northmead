@@ -247,6 +247,8 @@
       [style*="columns:3"] { columns: 2 !important; }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script>emailjs.init('efQdem9Pc5c7YkuDH');</script>
 </head>
 <body>
 
@@ -729,6 +731,22 @@
         await firestore.collection('finance_enquiries').add(data);
       } catch (err) {
         console.error('Firestore save failed:', err);
+      }
+
+      try {
+        await emailjs.send('service_fj0sazg', 'template_kwb0ko8', {
+          firstName:   data.firstName,
+          lastName:    data.lastName,
+          phone:       data.phone,
+          email:       data.email,
+          vehicle:     data.vehicle || 'Not specified',
+          loanAmount:  data.loanAmount || 'Not specified',
+          employment:  data.employment || 'Not specified',
+          notes:       data.notes || '—',
+          submitted_at: new Date().toLocaleString('en-AU', {timeZone:'Australia/Sydney'}),
+        });
+      } catch (err) {
+        console.error('EmailJS send failed:', err);
       }
 
       form.style.display = 'none';
